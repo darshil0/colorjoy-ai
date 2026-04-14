@@ -254,6 +254,18 @@ export default function App() {
     }
   };
 
+  const thresholdMap = [
+    HarmBlockThreshold.BLOCK_NONE,
+    HarmBlockThreshold.BLOCK_ONLY_HIGH,
+    HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE,
+    HarmBlockThreshold.BLOCK_LOW_AND_ABOVE,
+  ];
+
+  const getSliderValueFromThreshold = (threshold: HarmBlockThreshold) => {
+    const index = thresholdMap.indexOf(threshold);
+    return index === -1 ? 3 : index;
+  };
+
   const getSafetyLabel = (val: HarmBlockThreshold) => {
     switch(val) {
       case HarmBlockThreshold.BLOCK_NONE: return "None";
@@ -449,12 +461,12 @@ export default function App() {
                             <span>{getSafetyLabel(val as HarmBlockThreshold)}</span>
                           </div>
                           <Slider 
-                            value={[val as number]} 
+                            value={[getSliderValueFromThreshold(val as HarmBlockThreshold)]} 
                             max={3} 
                             step={1} 
                             onValueChange={(vals) => {
                               const v = vals[0];
-                              setSafetySettings(prev => ({ ...prev, [key]: v }));
+                              setSafetySettings(prev => ({ ...prev, [key]: thresholdMap[v] }));
                             }}
                           />
                         </div>
