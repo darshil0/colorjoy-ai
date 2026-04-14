@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - **Complete UI Component Library**: Implemented and refined all necessary UI components including `Button`, `Input`, `Label`, `Card`, `Tabs`, `Badge`, `Slider`, `Switch`, `Progress`, `Accordion`, and more.
-- **Service Layer Completion**: Fully implemented `pdfService.ts` for PDF generation and `useFavorites.ts` for local storage management.
+- **Service Layer Completion**: Fully implemented `pdfService.ts` for PDF generation and `useFavorites.ts` in `src/hooks/` for local storage management.
 - **Type Centralization**: Created `src/types/index.ts` to centralize all TypeScript interfaces and enums.
 
 ### Fixed
@@ -62,7 +62,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 - **Progress Stepper**: Visual workflow tracker showing Brainstorming, Sketching, Upscaling, and Binding stages.
-- **Function Calling**: Implemented `create_page_metadata` for structured book planning.
+- **JSON Response**: Implemented structured book planning using JSON schema in `geminiService.ts`.
 - **Google Search Grounding**: Added a toggleable search feature to the Idea Assistant.
 - **Safety Sliders**: Parental control panel for adjusting AI safety thresholds.
 - **Page Numbering**: Added "Page X of Y" numbering to the bottom of all PDF pages.
