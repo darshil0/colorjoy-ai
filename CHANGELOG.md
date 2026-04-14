@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.0] - 2026-04-14
+
+### Added
+- **Complete UI Component Library**: Implemented and refined all necessary UI components including `Button`, `Input`, `Label`, `Card`, `Tabs`, `Badge`, `Slider`, `Switch`, `Progress`, `Accordion`, and more.
+- **Service Layer Completion**: Fully implemented `pdfService.ts` for PDF generation and `useFavorites.ts` for local storage management.
+- **Type Centralization**: Created `src/types/index.ts` to centralize all TypeScript interfaces and enums.
+
+### Fixed
+- **UI Component Refinement**: Updated `Badge`, `Slider`, and other components to use `forwardRef` to resolve TypeScript errors and improve compatibility.
+- **Gemini SDK Integration**: Corrected the mapping of `tools` and `systemInstruction` in `geminiService.ts` to align with the latest `@google/genai` SDK requirements.
+- **Safety Slider Mapping**: Fixed the mapping between slider values and `HarmBlockThreshold` enums for accurate parental controls.
+
+### Changed
+- **Build & Lint Verification**: Performed a full codebase audit using `lint_applet` and `compile_applet` to ensure production readiness.
+
 ## [1.4.3] - 2026-04-14
 
 ### Changed

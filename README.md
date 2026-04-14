@@ -33,7 +33,7 @@ The project follows a modular architecture for better maintainability:
 - **Frontend Framework**: React 19
 - **Build Tool**: Vite 6
 - **Styling**: Tailwind CSS 4
-- **UI Primitives**: [Base UI](https://base-ui.com/) (for accessible components)
+- **UI Primitives**: [Radix UI](https://www.radix-ui.com/) & [Base UI](https://base-ui.com/) (for accessible components)
 - **Icons**: Lucide React
 - **Animations**: Motion (formerly framer-motion)
 - **AI Models**: 
