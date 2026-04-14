@@ -115,7 +115,7 @@ export default function App() {
     setGenerationProgress(10);
     
     try {
-      const data = await generatePagePrompts(theme, childName, safetySettings, userApiKey);
+      const data = await generatePagePrompts(theme, childName, safetySettings);
       setCoverPage({ ...data.cover, imageUrl: undefined, status: 'idle' });
       setPages(data.pages.map((p: any, i: number) => ({
         id: `page-${i}`,
@@ -242,7 +242,7 @@ export default function App() {
     setIsChatLoading(true);
     
     try {
-      const response = await chatWithGemini(newMessages, useSearch, safetySettings, userApiKey);
+      const response = await chatWithGemini(newMessages, useSearch, safetySettings);
       setChatMessages([...newMessages, { role: 'model' as const, parts: [{ text: response }] }]);
     } catch (error) {
       console.error("Chat error:", error);

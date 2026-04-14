@@ -21,9 +21,9 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
 The project follows a modular architecture for better maintainability:
 
 - **`src/services/`**: Core logic for Gemini AI and PDF generation.
-- **`src/hooks/`**: Custom React hooks for state management (e.g., `useFavorites.ts`).
+- **`src/hooks/`**: Custom React hooks for state management (e.g., favorites).
 - **`src/types/`**: Centralized TypeScript definitions.
-- **`src/components/ui/`**: Reusable UI components built with Base UI and Tailwind CSS.
+- **`src/components/ui/`**: Reusable UI components built with Radix UI, Base UI, and Tailwind CSS.
 - **`AGENTS.md`**: Defines the AI Agent's personality and instructions.
 - **`GEMINI.md`**: Technical guidelines and prompt engineering rules for the AI models.
 
@@ -33,30 +33,47 @@ The project follows a modular architecture for better maintainability:
 - **Frontend Framework**: React 19
 - **Build Tool**: Vite 6
 - **Styling**: Tailwind CSS 4
-- **UI Primitives**: [Radix UI](https://www.radix-ui.com/) & [Base UI](https://base-ui.com/) (for accessible components)
+- **UI Primitives**: [Radix UI](https://www.radix-ui.com/) & [Base UI](https://base-ui.com/)
 - **Icons**: Lucide React
-- **Animations**: Motion (formerly framer-motion)
+- **Animations**: Motion
 - **AI Models**: 
   - `gemini-3-flash-preview` (Planning & Chat)
-  - `gemini-3-pro-image-preview` (High-quality Image Generation)
+  - `gemini-3-pro-image-preview` (Image Generation)
 - **PDF & Barcodes**: 
   - jsPDF (PDF generation)
-  - jsBarcode (EAN-13 barcode generation)
+  - JsBarcode (Barcode generation)
 - **Feedback & UX**: 
   - Sonner (Toast notifications)
   - Canvas Confetti (Celebration effects)
-- **Persistence**: LocalStorage (for favorites and history)
+- **Persistence**: LocalStorage
+
+## Local Development
+
+1. **Clone the repository**
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Set up environment variables**:
+   Create a `.env` file in the root directory and add your Gemini API key:
+   ```env
+   GEMINI_API_KEY=your_api_key_here
+   ```
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
 
 ## Getting Started
 
-1. **API Key**: You will need a Google Gemini API key. Set it as an environment variable `GEMINI_API_KEY` or enter it in the app's "Advanced Settings".
+1. **API Key**: Ensure your Gemini API key is configured in the environment.
 2. **Setup**:
-   - Enter the child's name and a theme.
-   - Use the Idea Assistant if you need inspiration.
+   - Enter the child's name and a creative theme.
+   - Use the **Idea Assistant** in the sidebar if you need inspiration.
 3. **Generate**:
-   - Click "Generate Book Plan" to create the scene descriptions.
-   - Click "Generate All Images" to create the line art (requires your API key).
-4. **Download**: Once all images are ready, click "Download PDF".
+   - Click **"Generate Book Plan"** to create the scene descriptions.
+   - Click **"Generate All Images"** to create the line art.
+4. **Download**: Once all images are ready, click **"Download PDF"** to get your print-ready coloring book.
 
 ## Safety
 
