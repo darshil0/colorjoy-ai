@@ -1,6 +1,6 @@
 {
   "name": "ColorJoy: Kids' Coloring Book Generator",
-  "description": "Create personalized coloring books with AI-generated line art based on any theme and your child's name. Download as a print-ready A4 PDF.",
+  "description": "A personalized children's coloring book generator that uses AI to plan 5-page books, generate thick-line art, and bundle them into print-ready PDFs with custom covers and professional back covers.",
   "requestFramePermissions": [],
   "majorCapabilities": []
 }
