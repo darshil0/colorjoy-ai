@@ -21,7 +21,7 @@ export interface SavedConfig {
   id: string;
   childName: string;
   theme: string;
-  timestamp: number;
+  createdAt: string;
 }
 
 export type GenerationStep = 'idle' | 'brainstorming' | 'sketching' | 'upscaling' | 'binding';

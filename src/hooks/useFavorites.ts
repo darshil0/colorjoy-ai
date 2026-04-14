@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { SavedConfig } from "../types";
-import { toast } from "sonner";
 
 export function useFavorites() {
   const [savedConfigs, setSavedConfigs] = useState<SavedConfig[]>([]);
@@ -11,40 +10,29 @@ export function useFavorites() {
       try {
         setSavedConfigs(JSON.parse(saved));
       } catch (e) {
-        console.error("Failed to load favorites");
+        console.error("Failed to parse favorites", e);
       }
     }
   }, []);
 
-  const saveToLocalStorage = (configs: SavedConfig[]) => {
-    localStorage.setItem("colorjoy_favorites", JSON.stringify(configs));
-    setSavedConfigs(configs);
-  };
-
   const saveConfig = (childName: string, theme: string) => {
     if (!childName || !theme) return;
-    
     const newConfig: SavedConfig = {
-      id: Math.random().toString(36).substr(2, 9),
+      id: crypto.randomUUID(),
       childName,
       theme,
-      timestamp: Date.now(),
+      createdAt: new Date().toISOString()
     };
-    
-    const updated = [newConfig, ...savedConfigs].slice(0, 10);
-    saveToLocalStorage(updated);
-    toast.success("Theme saved to favorites!");
+    const updated = [newConfig, ...savedConfigs];
+    setSavedConfigs(updated);
+    localStorage.setItem("colorjoy_favorites", JSON.stringify(updated));
   };
 
   const deleteConfig = (id: string) => {
     const updated = savedConfigs.filter(c => c.id !== id);
-    saveToLocalStorage(updated);
-    toast.info("Removed from favorites");
+    setSavedConfigs(updated);
+    localStorage.setItem("colorjoy_favorites", JSON.stringify(updated));
   };
 
-  return {
-    savedConfigs,
-    saveConfig,
-    deleteConfig
-  };
+  return { savedConfigs, saveConfig, deleteConfig };
 }
