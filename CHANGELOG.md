@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.3] - 2026-04-14
+## [1.5.3] - 2026-06-10
 
 ### Added
 - **Start New Book**: Added a reset button to clear the current plan and images, making it easier to start over.

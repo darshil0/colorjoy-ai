@@ -488,8 +488,8 @@ export default function App() {
             </CardContent>
             <CardFooter className="flex flex-col gap-2">
               <div className="flex w-full gap-2">
-                <Button
-                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white"
+                <Button 
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" 
                   onClick={handleGeneratePrompts}
                   disabled={isGeneratingPrompts || !childName || !theme}
                 >
@@ -501,9 +501,9 @@ export default function App() {
                 </Button>
                 <Tooltip>
                   <TooltipTrigger render={
-                    <Button
-                      variant="outline"
-                      size="icon"
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
                       onClick={() => saveConfig(childName, theme)}
                       disabled={!childName || !theme}
                       className="border-orange-200 text-orange-600 hover:bg-orange-50"
@@ -514,9 +514,9 @@ export default function App() {
                   <TooltipContent>Save to Favorites</TooltipContent>
                 </Tooltip>
               </div>
-
+              
               <Button 
-                variant="ghost"
+                variant="ghost" 
                 className="w-full text-xs text-slate-400 hover:text-red-500"
                 onClick={handleReset}
                 disabled={!childName && !theme && !coverPage && pages.length === 0}

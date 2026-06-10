@@ -17,7 +17,7 @@ export async function generatePagePrompts(theme: string, childName: string, safe
   // @ts-ignore
   const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview", safetySettings: mapSafetySettings(safetySettings) });
   const response = await model.generateContent({
-    contents: [{ role: "user", parts: [{ text: `Create a 5-page coloring book plan for a child named "${childName}" with the theme: "${theme}".
+    contents: [{ role: "user", parts: [{ text: `Create a 5-page coloring book plan for a child named "${childName}" with the theme: "${theme}". 
     Include a cover page and 5 interior pages.
     Each page should have a title, a dominant subject, and a detailed description for image generation.
     Prompts must be optimized for children's coloring books: thick black lines, no shading, white background.` }] }],
@@ -87,8 +87,8 @@ export async function generateColoringImage(prompt: string, imageSize: "1K" | "2
 
 export async function chatWithGemini(messages: any[], useSearch: boolean, safetySettings: SafetySettings) {
   // @ts-ignore
-  const model = ai.getGenerativeModel({
-    model: "gemini-3-flash-preview",
+  const model = ai.getGenerativeModel({ 
+    model: "gemini-3-flash-preview", 
     safetySettings: mapSafetySettings(safetySettings),
     systemInstruction: "You are the ColorJoy AI Agent, a creative assistant for children's coloring books. Help parents and kids brainstorm fun themes.",
     tools: useSearch ? [{ googleSearch: {} }] : undefined,
