@@ -233,6 +233,16 @@ export default function App() {
     });
   };
 
+  const handleReset = () => {
+    setChildName("");
+    setTheme("");
+    setCoverPage(null);
+    setPages([]);
+    setCurrentStep('idle');
+    setGenerationProgress(0);
+    toast.success("Started a new book! Form cleared.");
+  };
+
   const handleSendMessage = async () => {
     if (!currentInput.trim()) return;
     
@@ -476,32 +486,43 @@ export default function App() {
                 </AccordionItem>
               </Accordion>
             </CardContent>
-            <CardFooter className="flex gap-2">
+            <CardFooter className="flex flex-col gap-2">
+              <div className="flex w-full gap-2">
+                <Button 
+                  className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" 
+                  onClick={handleGeneratePrompts}
+                  disabled={isGeneratingPrompts || !childName || !theme}
+                >
+                  {isGeneratingPrompts ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Planning Scenes...</>
+                  ) : (
+                    <><Sparkles className="mr-2 h-4 w-4" /> Generate Book Plan</>
+                  )}
+                </Button>
+                <Tooltip>
+                  <TooltipTrigger render={
+                    <Button 
+                      variant="outline" 
+                      size="icon" 
+                      onClick={() => saveConfig(childName, theme)}
+                      disabled={!childName || !theme}
+                      className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                    >
+                      <Heart size={18} className={savedConfigs.some(c => c.theme === theme && c.childName === childName) ? "fill-orange-500 text-orange-500" : ""} />
+                    </Button>
+                  } />
+                  <TooltipContent>Save to Favorites</TooltipContent>
+                </Tooltip>
+              </div>
+              
               <Button 
-                className="flex-1 bg-orange-500 hover:bg-orange-600 text-white" 
-                onClick={handleGeneratePrompts}
-                disabled={isGeneratingPrompts || !childName || !theme}
+                variant="ghost" 
+                className="w-full text-xs text-slate-400 hover:text-red-500"
+                onClick={handleReset}
+                disabled={!childName && !theme && !coverPage && pages.length === 0}
               >
-                {isGeneratingPrompts ? (
-                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Planning Scenes...</>
-                ) : (
-                  <><Sparkles className="mr-2 h-4 w-4" /> Generate Book Plan</>
-                )}
+                <RefreshCw size={12} className="mr-2" /> Start New Book / Clear All
               </Button>
-              <Tooltip>
-                <TooltipTrigger render={
-                  <Button 
-                    variant="outline" 
-                    size="icon" 
-                    onClick={() => saveConfig(childName, theme)}
-                    disabled={!childName || !theme}
-                    className="border-orange-200 text-orange-600 hover:bg-orange-50"
-                  >
-                    <Heart size={18} className={savedConfigs.some(c => c.theme === theme && c.childName === childName) ? "fill-orange-500 text-orange-500" : ""} />
-                  </Button>
-                } />
-                <TooltipContent>Save to Favorites</TooltipContent>
-              </Tooltip>
             </CardFooter>
           </Card>
 
@@ -652,7 +673,7 @@ export default function App() {
                 <Button 
                   variant="outline" 
                   onClick={handleGenerateAllImages}
-                  disabled={pages.every(p => p.status === 'generating' || p.status === 'completed')}
+                  disabled={pages.length === 0 || pages.every(p => p.status === 'generating' || p.status === 'completed')}
                   className="rounded-full"
                 >
                   <RefreshCw className={`mr-2 h-4 w-4 ${currentStep === 'sketching' ? 'animate-spin' : ''}`} /> 
