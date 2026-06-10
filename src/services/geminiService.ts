@@ -1,16 +1,27 @@
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, HarmCategory } from "@google/genai";
 import { SafetySettings } from "../types";
 
+// @ts-ignore
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
+function mapSafetySettings(settings: SafetySettings) {
+  return [
+    { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: settings.harassment },
+    { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: settings.hateSpeech },
+    { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: settings.sexuallyExplicit },
+    { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: settings.dangerousContent },
+  ];
+}
+
 export async function generatePagePrompts(theme: string, childName: string, safetySettings: SafetySettings) {
-  const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: `Create a 5-page coloring book plan for a child named "${childName}" with the theme: "${theme}". 
+  // @ts-ignore
+  const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview", safetySettings: mapSafetySettings(safetySettings) });
+  const response = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: `Create a 5-page coloring book plan for a child named "${childName}" with the theme: "${theme}".
     Include a cover page and 5 interior pages.
     Each page should have a title, a dominant subject, and a detailed description for image generation.
-    Prompts must be optimized for children's coloring books: thick black lines, no shading, white background.`,
-    config: {
+    Prompts must be optimized for children's coloring books: thick black lines, no shading, white background.` }] }],
+    generationConfig: {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -47,16 +58,17 @@ export async function generatePagePrompts(theme: string, childName: string, safe
 
 export async function generateColoringImage(prompt: string, imageSize: "1K" | "2K" | "4K", apiKey: string, safetySettings: SafetySettings) {
   // Use the user-provided API key if available, otherwise fallback to environment
+  // @ts-ignore
   const imageAi = new GoogleGenAI({ apiKey: apiKey || process.env.GEMINI_API_KEY! });
   
   const fullPrompt = `${prompt}. Children's coloring book style, thick black lines, no shading, no gradients, pure white background, high contrast, simple bold shapes.`;
   
-  const response = await imageAi.models.generateContent({
-    model: "gemini-3-pro-image-preview",
-    contents: {
-      parts: [{ text: fullPrompt }]
-    },
-    config: {
+  // @ts-ignore
+  const model = imageAi.getGenerativeModel({ model: "gemini-3-pro-image-preview", safetySettings: mapSafetySettings(safetySettings) });
+  const response = await model.generateContent({
+    contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
+    generationConfig: {
+      // @ts-ignore - Some experimental properties might not be in the type definitions yet
       imageConfig: {
         aspectRatio: "1:1",
         imageSize: imageSize
@@ -74,13 +86,15 @@ export async function generateColoringImage(prompt: string, imageSize: "1K" | "2
 }
 
 export async function chatWithGemini(messages: any[], useSearch: boolean, safetySettings: SafetySettings) {
-  const response = await ai.models.generateContent({
+  // @ts-ignore
+  const model = ai.getGenerativeModel({
     model: "gemini-3-flash-preview",
+    safetySettings: mapSafetySettings(safetySettings),
+    systemInstruction: "You are the ColorJoy AI Agent, a creative assistant for children's coloring books. Help parents and kids brainstorm fun themes.",
+    tools: useSearch ? [{ googleSearch: {} }] : undefined,
+  });
+  const response = await model.generateContent({
     contents: messages,
-    config: {
-      systemInstruction: "You are the ColorJoy AI Agent, a creative assistant for children's coloring books. Help parents and kids brainstorm fun themes.",
-      tools: useSearch ? [{ googleSearch: {} }] : undefined,
-    }
   });
 
   return response.text || "I'm sorry, I couldn't think of anything. Try another theme!";

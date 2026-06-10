@@ -21,6 +21,7 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
 - **Print-Ready PDF**: Compiles all pages into an A4-formatted, numbered PDF ready for printing.
 - **Professional Back Cover**: Includes a unique barcode, mock ISBN, and publishing details for a realistic book feel.
 - **Favorites & History**: Save favorite themes and child name combinations for quick reuse.
+- **Start New Book**: Easily clear current progress and start a new project with a single click.
 - **Parental Controls**: Granular safety filters to ensure all content is child-appropriate.
 - **Celebration Effects**: Interactive confetti celebration upon successful book generation.
 
