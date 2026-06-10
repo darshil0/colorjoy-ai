@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.3] - 2026-06-10
+
+### Added
+- **Start New Book**: Added a reset button to clear the current plan and images, making it easier to start over.
+
+### Fixed
+- **Safety Integration**: Properly integrated and mapped parental control safety settings across all AI services (planning, art generation, and chat).
+- **UI Refinement**: Disabled the "Generate All Images" button when no book plan is present to prevent errors.
+
 ## [1.5.2] - 2026-04-14
 
 ### Changed
