@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.5.4] - 2026-06-11
+
+### Fixed
+- **Gemini SDK Integration**: Updated `geminiService.ts` to use the correct `ai.models.generateContent` method from `@google/genai` v1.50.0.
+- **API Key Consistency**: Ensured that the user-provided API key is used for all AI operations, including book planning and chat brainstorming.
+- **Environment Variables**: Fixed access to environment variables in the client-side service.
+
 ## [1.5.3] - 2026-06-10
 
 ### Added
