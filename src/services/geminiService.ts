@@ -1,8 +1,11 @@
 import { GoogleGenAI, Type, HarmCategory } from "@google/genai";
 import { SafetySettings } from "../types";
 
-// @ts-ignore
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const API_KEY = (import.meta as any).env.GEMINI_API_KEY || "";
+
+function getAIClient(apiKey?: string) {
+  return new GoogleGenAI({ apiKey: apiKey || API_KEY });
+}
 
 function mapSafetySettings(settings: SafetySettings) {
   return [
@@ -13,15 +16,16 @@ function mapSafetySettings(settings: SafetySettings) {
   ];
 }
 
-export async function generatePagePrompts(theme: string, childName: string, safetySettings: SafetySettings) {
-  // @ts-ignore
-  const model = ai.getGenerativeModel({ model: "gemini-3-flash-preview", safetySettings: mapSafetySettings(safetySettings) });
-  const response = await model.generateContent({
+export async function generatePagePrompts(theme: string, childName: string, safetySettings: SafetySettings, apiKey?: string) {
+  const ai = getAIClient(apiKey);
+  const response = await ai.models.generateContent({
+    model: "gemini-3-flash-preview",
     contents: [{ role: "user", parts: [{ text: `Create a 5-page coloring book plan for a child named "${childName}" with the theme: "${theme}". 
     Include a cover page and 5 interior pages.
     Each page should have a title, a dominant subject, and a detailed description for image generation.
     Prompts must be optimized for children's coloring books: thick black lines, no shading, white background.` }] }],
-    generationConfig: {
+    config: {
+      safetySettings: mapSafetySettings(safetySettings),
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -57,18 +61,15 @@ export async function generatePagePrompts(theme: string, childName: string, safe
 }
 
 export async function generateColoringImage(prompt: string, imageSize: "1K" | "2K" | "4K", apiKey: string, safetySettings: SafetySettings) {
-  // Use the user-provided API key if available, otherwise fallback to environment
-  // @ts-ignore
-  const imageAi = new GoogleGenAI({ apiKey: apiKey || process.env.GEMINI_API_KEY! });
+  const ai = getAIClient(apiKey);
   
   const fullPrompt = `${prompt}. Children's coloring book style, thick black lines, no shading, no gradients, pure white background, high contrast, simple bold shapes.`;
   
-  // @ts-ignore
-  const model = imageAi.getGenerativeModel({ model: "gemini-3-pro-image-preview", safetySettings: mapSafetySettings(safetySettings) });
-  const response = await model.generateContent({
+  const response = await ai.models.generateContent({
+    model: "gemini-3-pro-image-preview",
     contents: [{ role: "user", parts: [{ text: fullPrompt }] }],
-    generationConfig: {
-      // @ts-ignore - Some experimental properties might not be in the type definitions yet
+    config: {
+      safetySettings: mapSafetySettings(safetySettings),
       imageConfig: {
         aspectRatio: "1:1",
         imageSize: imageSize
@@ -85,16 +86,16 @@ export async function generateColoringImage(prompt: string, imageSize: "1K" | "2
   throw new Error("Failed to generate image");
 }
 
-export async function chatWithGemini(messages: any[], useSearch: boolean, safetySettings: SafetySettings) {
-  // @ts-ignore
-  const model = ai.getGenerativeModel({ 
+export async function chatWithGemini(messages: any[], useSearch: boolean, safetySettings: SafetySettings, apiKey?: string) {
+  const ai = getAIClient(apiKey);
+  const response = await ai.models.generateContent({
     model: "gemini-3-flash-preview", 
-    safetySettings: mapSafetySettings(safetySettings),
-    systemInstruction: "You are the ColorJoy AI Agent, a creative assistant for children's coloring books. Help parents and kids brainstorm fun themes.",
-    tools: useSearch ? [{ googleSearch: {} }] : undefined,
-  });
-  const response = await model.generateContent({
     contents: messages,
+    config: {
+      safetySettings: mapSafetySettings(safetySettings),
+      systemInstruction: { role: "system", parts: [{ text: "You are the ColorJoy AI Agent, a creative assistant for children's coloring books. Help parents and kids brainstorm fun themes." }] },
+      tools: useSearch ? [{ googleSearch: {} }] : undefined,
+    }
   });
 
   return response.text || "I'm sorry, I couldn't think of anything. Try another theme!";
