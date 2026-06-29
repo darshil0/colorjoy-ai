@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.5.4] - 2026-06-11
+## [1.5.4] - 2026-06-29
 
 ### Fixed
 - **Gemini SDK Integration**: Updated `geminiService.ts` to use the correct `ai.models.generateContent` method from `@google/genai` v1.50.0.
