@@ -16,7 +16,7 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
 - **Personalized Themes**: Generate coloring pages based on any theme (e.g., "Space Dinosaurs", "Underwater Robots").
 - **Custom Cover**: Every book includes a custom cover featuring the child's name.
 - **AI-Powered Art**: Uses `gemini-3-pro-image-preview` for professional-grade, thick-line art designed specifically for coloring.
-- **Structured Planning**: Uses Gemini Function Calling to create a cohesive 5-page book plan with varying difficulty levels.
+- **Structured Planning**: Uses Gemini Function Calling / JSON schema to create a cohesive 5-page book plan with varying difficulty levels.
 - **Idea Assistant**: A built-in chatbot with Google Search grounding to help brainstorm creative themes.
 - **Print-Ready PDF**: Compiles all pages into an A4-formatted, numbered PDF ready for printing.
 - **Professional Back Cover**: Includes a unique barcode, mock ISBN, and publishing details for a realistic book feel.
@@ -27,14 +27,16 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
 
 ## Tech Stack
 
-- **Language**: TypeScript
+- **Language**: TypeScript 5.8
 - **Frontend Framework**: React 19
 - **Build Tool**: Vite 6
+- **Test Runner**: Vitest 5
 - **Styling**: Tailwind CSS 4
 - **UI Primitives**: [Radix UI](https://www.radix-ui.com/) & [Base UI](https://base-ui.com/)
 - **Icons**: Lucide React
 - **Animations**: Motion
-- **AI Models**: 
+- **AI Models & SDK**:
+  - `@google/genai` (v2.22.0)
   - `gemini-3-flash-preview` (Planning & Chat)
   - `gemini-3-pro-image-preview` (Image Generation)
 - **PDF & Barcodes**: 
@@ -56,7 +58,7 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
    - Click **"Generate All Images"** to create the line art.
 4. **Download**: Once all images are ready, click **"Download PDF"** to get your print-ready coloring book.
 
-## Local Development
+## Local Development & Testing
 
 1. **Clone the repository**
 2. **Install dependencies**:
@@ -68,16 +70,28 @@ ColorJoy AI is a personalized children's coloring book generator powered by Goog
    ```env
    GEMINI_API_KEY=your_api_key_here
    ```
-4. **Start the development server**:
+4. **Run development server**:
    ```bash
    npm run dev
+   ```
+5. **Run type checking / lint**:
+   ```bash
+   npm run lint
+   ```
+6. **Run tests**:
+   ```bash
+   npm test
+   ```
+7. **Build for production**:
+   ```bash
+   npm run build
    ```
 
 ## Project Structure
 
 The project follows a modular architecture for better maintainability:
 
-- **`src/services/`**: Core logic for Gemini AI and PDF generation.
+- **`src/services/`**: Core logic for Gemini AI, unit tests, and PDF generation.
 - **`src/hooks/`**: Custom React hooks for state management (e.g., favorites).
 - **`src/types/`**: Centralized TypeScript definitions.
 - **`src/components/ui/`**: Reusable UI components built with Radix UI, Base UI, and Tailwind CSS.

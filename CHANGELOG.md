@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.6.0] - 2026-09-11
+
+### Updated
+- **Dependencies**: Upgraded all project dependencies to their latest compatible stable versions (including `@google/genai` v2.22.0, `@base-ui/react` v1.8.0, `@tailwindcss/vite` v4.3.3, `react`/`react-dom` v19.3.0, `motion` v12.43.0, `vite` v6.4.3, and `typescript` v5.8.3).
+
+### Added
+- **Unit Testing**: Added `vitest` as test runner and added unit tests in `src/services/geminiService.test.ts`. Added `"test": "vitest run"` to `package.json` scripts.
+
+### Fixed
+- **Project Validation**: Verified type-checking (`npm run lint`), build (`npm run build`), unit testing (`npm test`), and package installation.
+
 ## [1.5.4] - 2026-06-29
 
 ### Fixed
